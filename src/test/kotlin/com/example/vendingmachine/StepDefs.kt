@@ -24,8 +24,13 @@ class ManageProductsSteps : En {
             vendingMachine.initializeSlot(slotId, productName, productCost)
         }
 
-        And("I add {int} products to slot {string}") { productAmount: Int, slotId: String ->
+        When("I add {int} products to slot {string}") { productAmount: Int, slotId: String ->
             vendingMachine.addProducts(slotId, productAmount)
+        }
+
+        Then("there is an empty slot {string}") { slotId: String ->
+            val slot = vendingMachine.getSlot(slotId)
+            assert(slot.productAmount).isEqualTo(0)
         }
 
         Then("{int} products named {string} that cost {float} dollars are in slot {string}")
@@ -34,18 +39,6 @@ class ManageProductsSteps : En {
             assert(slot.productName).isEqualTo(productName)
             assert(slot.productCost).isEqualTo(productCost)
             assert(slot.productAmount).isEqualTo(productAmount)
-        }
-
-        Then("there are 3 rows and 3 columns of empty slots") {
-            assert(vendingMachine.getSlot("A1")).isEqualTo(Slot.empty())
-            assert(vendingMachine.getSlot("A2")).isEqualTo(Slot.empty())
-            assert(vendingMachine.getSlot("A3")).isEqualTo(Slot.empty())
-            assert(vendingMachine.getSlot("B1")).isEqualTo(Slot.empty())
-            assert(vendingMachine.getSlot("B2")).isEqualTo(Slot.empty())
-            assert(vendingMachine.getSlot("B3")).isEqualTo(Slot.empty())
-            assert(vendingMachine.getSlot("C1")).isEqualTo(Slot.empty())
-            assert(vendingMachine.getSlot("C2")).isEqualTo(Slot.empty())
-            assert(vendingMachine.getSlot("C3")).isEqualTo(Slot.empty())
         }
 
         //endregion
@@ -86,7 +79,7 @@ class ManageProductsSteps : En {
         }
 
         Then("the product is dropped into the bin") {
-            var selectedProduct = vendingMachine.getSlot(selectedSlotId)
+            val selectedProduct = vendingMachine.getSlot(selectedSlotId)
             assert(selectedProduct.productAmount).isEqualTo(0)
             assert(vendingMachine.getBin()).isEqualTo("product")
         }

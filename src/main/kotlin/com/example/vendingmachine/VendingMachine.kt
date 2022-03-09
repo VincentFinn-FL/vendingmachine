@@ -29,6 +29,7 @@ class VendingMachine(val rows: Int, val columns: Int) {
 
     fun insertCurrency(dollars: Float) {
         insertedCurrency = dollars
+        display = "\$${insertedCurrency}"
     }
 
     fun selectProduct(slotId: String) {
@@ -54,10 +55,12 @@ class VendingMachine(val rows: Int, val columns: Int) {
     }
 
     private fun setupSlots() {
+        var rowChar = 'A'
         for (row: Int in 0..rows) {
             for (col: Int in 1..columns + 1) {
-                slots["A${col}"] = Slot.empty()
+                slots["$rowChar$col"] = Slot.empty()
             }
+            rowChar += 1
         }
     }
 }

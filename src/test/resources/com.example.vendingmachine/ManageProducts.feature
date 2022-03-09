@@ -4,8 +4,19 @@ Feature: Manage Products
     Given an empty vending machine with 3 rows and 3 columns
 
   # TODO: consider scenarios to capture all slot ids because we use that id later, so the id has business value to be correct
-  Scenario: All slots are empty
-    Then there are 3 rows and 3 columns of empty slots
+  Scenario Outline: All slots are empty
+    Then there is an empty slot "<slotId>"
+    Examples:
+      | slotId |
+      | A1     |
+      | A2     |
+      | A3     |
+      | B1     |
+      | B2     |
+      | B3     |
+      | C1     |
+      | C2     |
+      | C3     |
 
   # TODO: reduce to 1 when
   Scenario Outline: Add Products To Vending Machine
